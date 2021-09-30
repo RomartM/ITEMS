@@ -1,0 +1,3 @@
+
+TECHNICAL = 1
+OFFICER = 2
