@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,8 +37,37 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third Party Apps
+
+    # Apps
+    'apps.checklist',
+    'apps.scheduler',
+
+    # Core
+    'core.user',
+    'core.device',
+    'core.preventive',
+    'core.corrective',
+    'core.common',
 ]
 
+
+# Dynamic Add Modules
+print(BASE_DIR)
+MODULES_DIR = 'modules/%s'
+MODULES_VARIETY = ['corrective', 'preventive']
+
+for variety in MODULES_VARIETY:
+    _variety_dir = MODULES_DIR % variety
+    for module in os.listdir(_variety_dir):
+        if os.path.isdir(os.path.join(_variety_dir, module)):
+            module_name = 'modules.%s.%s' % (variety, module)
+            if module_name not in INSTALLED_APPS:
+                INSTALLED_APPS += (module_name, )
+
+
+# Django Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,6 +105,13 @@ WSGI_APPLICATION = 'ITEMS.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'localhost',
+        'NAME': 'it_em_v3',
+        'USER': 'user1234',
+        'PASSWORD': '1234'
+    },
+    'default_local': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
