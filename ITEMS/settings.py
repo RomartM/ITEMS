@@ -39,6 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third Party Apps
+    'django_extensions',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'knox',
+    'django_filters',
+    'simple_history',
+    'django_bootstrap_breadcrumbs',
+    'import_export',
+    'solo',
 
     # Apps
     'apps.checklist',
@@ -54,7 +63,6 @@ INSTALLED_APPS = [
 
 
 # Dynamic Add Modules
-print(BASE_DIR)
 MODULES_DIR = 'modules/%s'
 MODULES_VARIETY = ['corrective', 'preventive']
 
