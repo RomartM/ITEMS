@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from users.models import User
+from core.user.models import User, Clientele, Office
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION, ACTION_FLAG_CHOICES
 
 
@@ -43,3 +43,35 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('pk', 'email', 'first_name', 'last_name', 'role', 'contact_number')
+
+
+class ClienteleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Clientele
+        fields = ('pk', 'name', 'designation', 'contact_number', 'enable')
+
+
+class ClienteleSelectSerializer(serializers.ModelSerializer):
+    label = serializers.CharField(source='name')
+    value = serializers.IntegerField(source='pk', read_only=True)
+
+    class Meta:
+        model = Clientele
+        fields = ('label', 'value', 'designation', 'contact_number',)
+
+
+class OfficeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Office
+        fields = ('pk', 'name', 'enable')
+
+
+class OfficeSelectSerializer(serializers.ModelSerializer):
+    label = serializers.CharField(source='name')
+    value = serializers.IntegerField(source='pk', read_only=True)
+
+    class Meta:
+        model = Office
+        fields = ('label', 'value',)

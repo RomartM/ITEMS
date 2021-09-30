@@ -1,3 +1,4 @@
 
-TECHNICAL = 1
-OFFICER = 2
+CLIENTELE = 'clientele'
+TECHNICIAN = 'technician'
+ATTENDANT = 'attendant'

@@ -10,14 +10,14 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     first_name = models.CharField(max_length=80, default='')
     last_name = models.CharField(max_length=80, default='')
-    designation = models.CharField(max_length=100, default='N/A', blank=True)
     contact_number = models.CharField(max_length=30, default='')
     email = models.EmailField(max_length=255, unique=True)
     role = models.CharField(max_length=30, choices=(
         ('clientele', 'Clientele'),
         ('technician', 'Technician'),
         ('attendant', 'Attendant'),
-    ), default='technician')
+    ), default='clientele')
+    linked_clientele = models.OneToOneField('Clientele', on_delete=models.CASCADE, null=True, blank=True)
     is_staff = models.BooleanField(
         default=False, help_text=_("Designates whether the user can log into this admin " "site.")
     )
@@ -44,8 +44,11 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     def get_initial_name(self):
         return "%s%s".capitalize() % (self.first_name[:1], self.last_name[:1])
 
-    def has_role(self, pk):
+    def has_group(self, pk):
         return bool(self.groups.filter(pk=pk))
+
+    def is_role(self, role):
+        return bool(self.role == role)
 
     def __str__(self):
         return self.email
@@ -53,6 +56,17 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
 
 class Office(HistorySurveillance):
     name = models.CharField(max_length=100, unique=True)
+    enable = models.BooleanField(default=True)
+    history = HistoricalRecords(excluded_fields=['history_instance'])
+
+    def __str__(self):
+        return self.name
+
+
+class Clientele(HistorySurveillance):
+    name = models.CharField(max_length=100, unique=True)
+    designation = models.CharField(max_length=100, default='N/A', blank=True)
+    contact_number = models.CharField(max_length=30, blank=True)
     enable = models.BooleanField(default=True)
     history = HistoricalRecords(excluded_fields=['history_instance'])
 

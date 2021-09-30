@@ -12,8 +12,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.api.serializer import UserSerializerLite, UserSerializer, LogEntrySerializer
-from users.models import User
+from .serializer import UserSerializerLite, UserSerializer, LogEntrySerializer
+from core.user.models import User
+
+from core.user.api.serializer import ClienteleSerializer, ClienteleSelectSerializer, OfficeSerializer, \
+    OfficeSelectSerializer
+from core.user.models import Clientele, Office
 
 
 class SessionAuthToken(APIView):
@@ -105,4 +109,95 @@ class UserViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         user = get_object_or_404(user_queryset, pk=pk)
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
+class ClienteleViewSet(viewsets.ModelViewSet):
+
+    serializer_class = ClienteleSerializer
+    queryset = Clientele.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'designation', 'contact_number']
+    ordering_fields = ['pk', 'name', 'designation']
+    ordering = ['name']
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the type of equipments
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(enable=True)
+
+
+class ClienteleSelectViewSet(viewsets.ModelViewSet):
+
+    pagination_class = None
+    serializer_class = ClienteleSelectSerializer
+    queryset = Clientele.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name']
+    ordering_fields = ['name']
+    ordering = ['name']
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the type of equipments
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(enable=True)
+
+
+class OfficeViewSet(viewsets.ModelViewSet):
+
+    serializer_class = OfficeSerializer
+    queryset = Office.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name']
+    ordering_fields = ['pk', 'name']
+    ordering = ['name']
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the offices
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(enable=True)
+
+
+class OfficeSelectViewSet(viewsets.ModelViewSet):
+
+    pagination_class = None
+    serializer_class = OfficeSelectSerializer
+    queryset = Office.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name']
+    ordering_fields = ['name']
+    ordering = ['name']
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the offices
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_superuser:
+            return self.queryset
+        return self.queryset.filter(enable=True)
+
 

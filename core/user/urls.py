@@ -1,8 +1,9 @@
 from django.urls import path
 
-from users import views
+from core.user import views
 
-app_name = 'users'
+app_name = 'user'
 urlpatterns = [
-    path('my-activities', views.my_activities, name='my_activities'),
+    path('activity', views.activity, name='activity'),
+    path('account', views.account, name='account'),
 ]

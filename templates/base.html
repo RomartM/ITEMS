@@ -1,0 +1,60 @@
+{% load django_bootstrap_breadcrumbs %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{% block title %}{% endblock %}</title>
+    <!-- CSS files -->
+    <link href="{% static 'dist/css/tabler.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'app/css/styles.css' %}" rel="stylesheet"/>
+    {% block css %}{% endblock %}
+  </head>
+  <body class="antialiased theme-dark">
+    <div class="wrapper">
+      {% include 'header.html' %}
+      <div class="page-wrapper">
+        <div class="container-xl">
+          <!-- Page title -->
+          <div class="page-header d-print-none">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Page pre-title -->
+                <div class="page-pretitle">
+                    {% breadcrumb "Dashboard" "common:dashboard" %}
+                    {% block pre_title %}{% endblock %}
+                    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
+                </div>
+                <h2 class="page-title">
+                    {% block page_title %}{% endblock %}
+                </h2>
+              </div>
+              <!-- Page title actions -->
+              <div class="col-auto ms-auto d-print-none">
+                {% block page_title_actions %}{% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="container-xl">
+            <div id="root">{% block content %}{% endblock %}</div>
+          </div>
+        </div>
+        {% include 'footer.html' %}
+      </div>
+    </div>
+    <!-- Tabler Core -->
+    <script src="{% static 'dist/js/tabler.min.js' %}"></script>
+    <!-- Modals -->
+    {% block modals %}{% endblock %}
+    <!-- Libs JS -->
+    {% if request.user.is_authenticated %}
+        <script src="{% static 'app/js/utils.js' %}"></script>
+    {% endif %}
+    {% block scripts %}{% endblock %}
+    {% block end_scripts %}{% endblock %}
+  </body>
+</html>

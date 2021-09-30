@@ -2,5 +2,5 @@ from django.template.defaulttags import register
 
 
 @register.filter
-def has_role(user, group_id):
-    return user.has_role(pk=group_id)
+def is_role(user, role):
+    return user.is_role(role)

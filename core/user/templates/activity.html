@@ -8,14 +8,13 @@
         window.log = console.log;
     </script>
 {% endblock %}
-{% block title %}My Activities{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 {% block pre_title %}
-     {% breadcrumb "Dashboard" "common:home" %}
-     {% breadcrumb "My Activities" "users:my_activities" %}
+     {% breadcrumb page_title "user:activity" %}
 {% endblock %}
-{% block page_title %}My Activities{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
 {% block content %}
-<h1>Loading<span class="animated-dots"></span></h1>
+{% include 'sections/spinner.html' %}
 {% endblock %}
 {% block scripts %}
     <script>
@@ -27,9 +26,9 @@
     <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/babel" src="{% static 'react/network.jsx' %}"></script>
-    <script type="text/babel" src="{% static 'modules/table.jsx' %}"></script>
-    <script type="text/babel" src="{% static 'modules/filter.jsx' %}"></script>
-    <script type="text/babel" src="{% static 'modules/user/section-my-activities-list.jsx' %}"></script>
-    <script type="text/babel" data-type="module" src="{% static 'modules/user/my-activities.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/network.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/table.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/filter.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/user/activity-section-list.jsx' %}"></script>
+    <script type="text/babel" data-type="module" src="{% static 'app/jsx/modules/user/activity.jsx' %}"></script>
 {% endblock %}

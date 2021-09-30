@@ -1,10 +1,11 @@
-from users.constants import TECHNICAL, OFFICER
+from core.user.constants import CLIENTELE, TECHNICIAN, ATTENDANT
 
 
 def user_meta(request):
     return {
         'USER_GROUP': {
-            'TECHNICAL': TECHNICAL,
-            'OFFICER': OFFICER
+            'CLIENTELE': CLIENTELE,
+            'TECHNICIAN': TECHNICIAN,
+            'ATTENDANT': ATTENDANT
         }
     }

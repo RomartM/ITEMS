@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% load user_extras %}
+{% block css %}
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.0/js/react/jsxLoader.min.js"></script>
+    <script>
+        window.log = console.log;
+    </script>
+{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block pre_title %}
+     {% breadcrumb page_title "user:account" %}
+{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+<div class="container-xl">
+            <div class="row gx-lg-4">
+              <div class="d-none d-lg-block col-lg-3">
+                <ul class="nav nav-pills nav-vertical">
+                  <li class="nav-item">
+                    <a href="{% url 'user:account' %}" class="nav-link active">
+                      Account Overview
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      Edit Account
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      Change Password
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-9">
+                <div class="card card-lg">
+                  <div class="card-body">
+                    <div class="markdown">
+                      <div>
+                        <div class="d-flex mb-3">
+                          <h1 class="m-0">Account Overview</h1>
+                        </div>
+                        <h2 class="mb-3">Profile Information</h2>
+                        <div class="profile-information">
+                            <div class="row border-bottom py-2">
+                                <div class="col-6 text-muted">Email</div>
+                                <div class="col-6 font-weight-medium">{{ request.user.email|lower }}</div>
+                            </div>
+                            <div class="row border-bottom py-2">
+                                <div class="col-6 text-muted">First Name</div>
+                                <div class="col-6 font-weight-medium">{{ request.user.first_name|title }}</div>
+                            </div>
+                            <div class="row border-bottom py-2">
+                                <div class="col-6 text-muted">Last Name</div>
+                                <div class="col-6 font-weight-medium">{{ request.user.last_name|title }}</div>
+                            </div>
+                            <div class="row border-bottom py-2">
+                                <div class="col-6 text-muted">Contact Number</div>
+                                <div class="col-6 font-weight-medium">{{ request.user.contact_number }}</div>
+                            </div>
+                            <div class="row border-bottom py-2">
+                                <div class="col-6 text-muted">Role</div>
+                                <div class="col-6 font-weight-medium">{{ request.user.role|title }}</div>
+                            </div>
+                            <button type="button" class="btn mt-4">Edit Profile</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        window.process = { env: { NODE_ENV: 'production' } };
+        window.context = {{ context|safe }};
+    </script>
+{% endblock %}
+{% block end_scripts %}
+{% endblock %}

@@ -6,23 +6,25 @@ from django.shortcuts import render
 from rest_framework.reverse import reverse_lazy
 from django.urls import reverse_lazy as rl_django
 
-from modules.computer.constants import CONTEXT
-from modules.computer.models import ComputerDevice
+# from modules.computer.constants import CONTEXT
+# from modules.computer.models import ComputerDevice
+from ITEMS.constants import CONTEXT
 
 
-def my_activities(request):
+def activity(request):
 
     context = CONTEXT
-    objects = ComputerDevice.objects
-
+    CONTEXT['page_title'] = 'Activity'
+    # objects = ComputerDevice.objects
+    #
     CONTEXT['context'] = json.dumps({
         'api': {
-            'obtain': str(reverse_lazy('rest_auth:obtain_by_session', request=request)).replace('http://020d50d77cb2.ngrok.io', 'https://020d50d77cb2.ngrok.io'),
+            'obtain': str(reverse_lazy('rest_user:obtain_by_session', request=request)),
         },
         'table': {
             'api': {
-                'source': str(reverse_lazy('rest_auth:activity-list', request=request)).replace('http://020d50d77cb2.ngrok.io', 'https://020d50d77cb2.ngrok.io'),
-                'details': str(rl_django('device:computer:details', kwargs={'pk': 0}, )).replace('http://020d50d77cb2.ngrok.io', 'https://020d50d77cb2.ngrok.io')
+                'source': str(reverse_lazy('rest_user:activity-list', request=request)),
+                # 'details': str(rl_django('device:computer:details', kwargs={'pk': 0}, ))
             },
             'filters': [
                 {
@@ -38,4 +40,11 @@ def my_activities(request):
         }
     })
 
-    return render(request, 'my-activities.html', context)
+    return render(request, 'activity.html', context)
+
+
+def account(request):
+    context = CONTEXT
+    CONTEXT['page_title'] = 'Account'
+
+    return render(request, 'account.html', context)
