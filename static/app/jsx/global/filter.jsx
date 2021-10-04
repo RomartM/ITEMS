@@ -1,4 +1,6 @@
 class Filter extends React.Component {
+    has_content = false;
+
     constructor(props) {
         super(props);
     }
@@ -17,6 +19,12 @@ class Filter extends React.Component {
     get filterControls(){
         let instance = this;
         return instance.props.context.meta_data.map(function (ctrl){
+            if(ctrl.filters.length === 0){
+                return <></>
+            }
+
+            instance.has_content = true;
+
             return <>
                 <div className="hr-text hr-text-left mb-3 mt-3">{ctrl.label}</div>
                 <div className="filter-badges">
@@ -29,9 +37,15 @@ class Filter extends React.Component {
     }
 
     render() {
+        let title = <h4>FILTER</h4>
+
+        if(!this.has_content){
+            title = <></>
+        }
+
         return (
             <div className="filter-section">
-                <h4>FILTER</h4>
+                {title}
                 <div className="filter-type-container">
                     {this.filterControls}
                 </div>

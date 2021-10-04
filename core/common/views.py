@@ -13,7 +13,7 @@ def dashboard(request):
 
     context['context'] = json.dumps({
         'api': {
-            'obtain': str(reverse_lazy('rest_user:obtain_by_session', request=request)),
+            'obtain': str(reverse_lazy('auth:obtain_by_session', request=request)),
         },
         # 'device': {
         #     'api': {
@@ -27,3 +27,16 @@ def dashboard(request):
         # },
     })
     return render(request, 'dashboard.html', context)
+
+
+@login_required
+def finder(request):
+    context = CONTEXT
+
+    context['page_title'] = 'Finder'
+    context['context'] = json.dumps({
+        'api': {
+            'obtain': str(reverse_lazy('auth:obtain_by_session', request=request)),
+        },
+    })
+    return render(request, 'finder.html', context)

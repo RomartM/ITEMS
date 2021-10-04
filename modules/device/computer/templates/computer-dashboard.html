@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% load user_extras %}
+{% block css %}
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.0/js/react/jsxLoader.min.js"></script>
+    <script>
+        window.log = console.log;
+    </script>
+{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block pre_title %}
+     {% breadcrumb "Devices" "device:list" %}
+     {% breadcrumb page_title "" %}
+{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block page_title_actions %}
+    <div class="btn-list">
+      <a href="{% url 'device:computer:new' %}" class="btn btn-primary">
+        New {{ SHORT_NAME }}
+      </a>
+    </div>
+{% endblock %}
+{% block content %}
+    {% include 'sections/spinner.html' %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        window.process = { env: { NODE_ENV: 'production' } };
+        window.context = {{ context|safe }};
+    </script>
+{% endblock %}
+{% block end_scripts %}
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/network.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/filter.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/table.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-overview.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-list.jsx' %}"></script>
+    <script type="text/babel" data-type="module" src="{% static 'app/jsx/modules/computer/dashboard.jsx' %}"></script>
+{% endblock %}

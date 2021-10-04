@@ -21,12 +21,13 @@ class BrandSelectSerializer(serializers.ModelSerializer):
 
 
 class DeviceSerializer(serializers.ModelSerializer):
-    office = OfficeSerializer(read_only=True)
+    device_id = serializers.CharField(read_only=True)
     brand = BrandSerializer(read_only=True)
-    clientele = ClienteleSerializer(read_only=True)
+    office = OfficeSerializer(read_only=True)
+    user = ClienteleSerializer(read_only=True)
 
     class Meta:
         model = Device
-        fields = ('pk', 'clientele', 'office', 'brand',
+        fields = ('pk', 'device_id', 'user', 'office', 'brand',
                   'model', 'date_acquired', 'unit_cost',)
 

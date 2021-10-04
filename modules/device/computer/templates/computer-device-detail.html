@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% load user_extras %}
+{% block css %}
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.0/js/react/jsxLoader.min.js"></script>
+    <link href="https://cdn.skypack.dev/react-toastify/dist/ReactToastify.min.css" rel="stylesheet"/>
+    <script>
+        window.log = console.log;
+    </script>
+{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block pre_title %}
+     {% breadcrumb "Devices" "device:list" %}
+     {% breadcrumb LONG_NAME "device:computer:dashboard" %}
+     {% breadcrumb "Details" "" %}
+{% endblock %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block page_title_actions %}
+    <div class="btn-list">
+      {% if request.user|is_role:USER_GROUP.ATTENDANT %}
+          <a href="{% url 'corrective:issue_srf_by_pk' pk=obj.id %}" class="btn btn-primary">
+            Issue SRF
+          </a>
+      {% endif %}
+      <a href="{% url 'device:computer:edit' pk=obj.id %}" class="btn btn-white">
+        Edit {{ SHORT_NAME }}
+      </a>
+    </div>
+{% endblock %}
+{% block content %}
+    {% include 'sections/spinner.html' %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        window.process = { env: { NODE_ENV: 'production' } };
+        window.context = {{ context|safe }};
+        window.short_name = '{{ SHORT_NAME }}';
+        window.long_name = '{{ LONG_NAME }}';
+    </script>
+{% endblock %}
+{% block end_scripts %}
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/network.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/table.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/list.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/modal.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/global/advance-list.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-changes-history-list.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-repair-history-list.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-cm-record-list.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-pm-record-list.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-pm-checklist.jsx' %}"></script>
+    <script type="text/babel" src="{% static 'app/jsx/modules/computer/section-pc-information.jsx' %}"></script>
+    <script type="text/babel" data-type="module" src="{% static 'app/jsx/modules/computer/details.jsx' %}"></script>
+{% endblock %}

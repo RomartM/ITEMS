@@ -17,7 +17,7 @@ class Brand(HistorySurveillance):
 
 class Device(HistorySurveillance):
     device_id = models.CharField(max_length=8, blank=True)
-    clientele = models.ForeignKey(Clientele, on_delete=models.CASCADE)
+    user = models.ForeignKey(Clientele, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     model = models.CharField(max_length=200)
