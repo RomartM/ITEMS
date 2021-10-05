@@ -34,3 +34,15 @@ class ServiceRequest(HistorySurveillance):
     recommending_approval = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recommending_approval', null=True, blank=True)
     approved_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='approved_by', null=True, blank=True)
     history = HistoricalRecords(excluded_fields=['history_instance'])
+
+
+class ServiceOrderAbstract(HistorySurveillance):
+    srf = models.OneToOneField(ServiceRequest, on_delete=models.CASCADE)
+    sod = models.CharField(max_length=15)
+    issued_to = models.ForeignKey(User, on_delete=models.CASCADE)
+    issued_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+

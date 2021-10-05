@@ -71,7 +71,7 @@ for variety in MODULES_VARIETY:
     for module in os.listdir(_variety_dir):
         if os.path.isdir(os.path.join(_variety_dir, module)):
             module_name = 'modules.%s.%s' % (variety, module)
-            if module_name not in INSTALLED_APPS:
+            if module_name not in INSTALLED_APPS and module != '__pycache__':
                 INSTALLED_APPS += (module_name, )
 
 
